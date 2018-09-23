@@ -2,9 +2,9 @@
 module.exports = {
     'connection': {
         'host': 'localhost',
-        'user': 'root',
-        'password': 'password'
+        'user': 'lxm',
+        'password': '1'
     },
-	'database': 'my_schema',
+	'database': 'dxm',
     'users_table': 'users'
 };
