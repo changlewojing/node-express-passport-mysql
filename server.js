@@ -30,12 +30,28 @@ app.use(bodyParser.json());
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 
+
+var MySQLStore = require('express-mysql-session')(session);
+var options = {
+  host: 'localhost',
+  port: 3306,
+  user: 'lxm',
+  password: '1',
+  database: 'dxm'
+};
+var sessionStore = new MySQLStore(options);
+
+
 // required for passport
 app.use(session({
 	secret: 'vidyapathaisalwaysrunning',
+        store: sessionStore,
 	resave: true,
 	saveUninitialized: true
  } )); // session secret
+
+
+
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
