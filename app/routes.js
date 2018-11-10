@@ -13,14 +13,20 @@ module.exports = function(app, passport) {
 	// =====================================
 	// show the login form
 	app.get('/login', function(req, res) {
-
+		console.log("login,get...");
+		//console.log(req.params);
+		console.log(req.query);
+		if (req.query.service)
+		  req.session.service = req.query.service;
 		// render the page and pass in any flash data if it exists
 		res.render('login.ejs', { message: req.flash('loginMessage') });
 	});
 
 	// process the login form
 	app.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/profile', // redirect to the secure profile section
+            //successRedirect : '/profile', // redirect to the secure profile section
+            //successRedirect : '/we/',//false, // redirect to the secure profile section
+            successRedirect : false, // redirect to the secure profile section
             failureRedirect : '/login', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
 		}),
@@ -33,7 +39,15 @@ module.exports = function(app, passport) {
             } else {
               req.session.cookie.expires = false;
             }
-        res.redirect('/');
+
+	//console.log(req);
+	//console.log(req.param);
+	if (req.session.service)
+           res.redirect(req.session.service);
+        else
+           res.redirect('/profile');
+        //res.redirect('/we');
+        //res.redirect('/');
     });
 
 	// =====================================
