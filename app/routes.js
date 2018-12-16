@@ -55,6 +55,8 @@ module.exports = function(app, passport) {
 	// =====================================
 	// show the signup form
 	app.get('/signup', function(req, res) {
+		return res.status(404).send('谢谢光临，暂不开放注册！');
+		//res.json();
 		// render the page and pass in any flash data if it exists
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
 	});
