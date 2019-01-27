@@ -29,14 +29,16 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.set('view engine', 'ejs'); // set up ejs for templating
-
-
+/**********************************
+  * session store
+  */
+/***********mysqlstore初始化
 var MySQLStore = require('express-mysql-session')(session);
 var options = {
   host: 'localhost',
   port: 3306,
   user: 'lxm',
-  password: '1',
+  password: '',
   database: 'dxm'
 };
 var sessionStore = new MySQLStore(options);
@@ -49,6 +51,19 @@ app.use(session({
 	resave: true,
 	saveUninitialized: true
  } )); // session secret
+*/
+
+options = {};
+var RedisStore = require('connect-redis')(session);
+app.use(session({
+  store: new RedisStore(options),
+  secret: 'secret123456',
+  resave: false,
+  //cookie:{expires:new Date(),maxAge:1000*60*60}//1分钟
+  cookie:{maxAge:1000*60*24*60}//1天24小时
+}));
+
+/*********sessionstore初始化结束************************************/
 
 
 
